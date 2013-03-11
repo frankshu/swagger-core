@@ -17,10 +17,12 @@
 
 	<!-- Application resources -->
 	<bean id="userRessource" class="com.wordnik.swagger.sample.resource.UserResourceJSON" />
+    <bean id="petRessource" class="com.wordnik.swagger.sample.resource.PetResourceJSON" />
+    <bean id="petStoreRessource" class="com.wordnik.swagger.sample.resource.PetStoreResourceJSON" />
 
 	<!-- Swagger API listing resource -->
-	<bean id="swaggerRessource" class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
-	
+	<bean id="swaggerRessource"
+		class="com.wordnik.swagger.jaxrs.listing.ApiListingResourceJSON" />
 
 	<cxf:bus>
 		<cxf:features>
@@ -28,21 +30,18 @@
 		</cxf:features>
 	</cxf:bus>
 
-	<!-- <jaxrs:server id="swaggerCXFService" address="/v1.0"> -->
-	<!-- <jaxrs:serviceBeans> -->
-	<!-- <ref bean="userRessource" /> -->
-	<!-- <ref bean="swaggerRessource" /> -->
-	<!-- </jaxrs:serviceBeans> -->
-	<!-- <jaxrs:providers> -->
-	<!-- <ref bean="jsonProvider" /> -->
-	<!-- </jaxrs:providers> -->
-	<!-- </jaxrs:server> -->
+	<bean id="basicApplication" class="com.wordnik.swagger.sample.util.BasicApplication">
+		<property name="ressourcePackage" value="com.wordnik.swagger.sample.resource" />
+	</bean>
 
-	<bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean" init-method="create">
+	<bean class="org.apache.cxf.jaxrs.JAXRSServerFactoryBean"
+		init-method="create">
 		<property name="address" value="/v1.0" />
 		<property name="serviceBeans">
 			<list>
 				<ref bean="userRessource" />
+                <ref bean="petRessource" />
+                <ref bean="petStoreRessource" />
 				<ref bean="swaggerRessource" />
 			</list>
 		</property>
@@ -51,5 +50,6 @@
 				<ref bean="jsonProvider" />
 			</list>
 		</property>
+		<property name="application" ref="basicApplication" />
 	</bean>
 </beans>
